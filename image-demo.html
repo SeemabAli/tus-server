@@ -103,7 +103,7 @@
 
             // Create a new tus upload
             const upload = new tus.Upload(file, {
-                endpoint: 'https://tus-server-production.up.railway.app/image/',
+                endpoint: 'tus-server-go-production.up.railway.app/image/',
                 retryDelays: [0, 3000, 5000, 10000, 20000],
                 metadata: {
                     filename: file.name,
