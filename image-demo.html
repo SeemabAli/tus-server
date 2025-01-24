@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple image Upload</title>
+    <!-- Include tus-js-client from a CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/tus-js-client@2.3.0/dist/tus.js"></script>
+    <!-- Include SweetAlert2 from a CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #upload-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #image-input {
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #progress-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 20px;
+            height: 20px;
+            overflow: hidden;
+        }
+
+        #progress-bar {
+            height: 100%;
+            background-color: #007bff;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+            font-weight: bold;
+            width: 0;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Upload an Image File</h1>
+    <form id="upload-form">
+        <input type="file" id="image-input" accept="image/*" />
+        <button type="button" onclick="uploadImageFile()">Upload</button>
+    </form>
+
+    <!-- Progress Bar -->
+    <div id="progress-container">
+        <div id="progress-bar">0%</div>
+    </div>
+
+    <script>
+        function uploadImageFile() {
+            const fileInput = document.getElementById('image-input');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'No File Selected',
+                    text: 'Please select a file to upload.',
+                });
+                return;
+            }
+
+            // Create a new tus upload
+            const upload = new tus.Upload(file, {
+                endpoint: 'https://tus-server-production.up.railway.app/image/',
+                retryDelays: [0, 3000, 5000, 10000, 20000],
+                metadata: {
+                    filename: file.name,
+                    filetype: file.type,
+                },
+                onError: function (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Upload Failed',
+                        text: `Failed to upload the file. Error: ${error.message}`,
+                    });
+                },
+                onProgress: function (bytesUploaded, bytesTotal) {
+                    const percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(2);
+                    const progressBar = document.getElementById('progress-bar');
+                    progressBar.style.width = percentage + '%';
+                    progressBar.textContent = percentage + '%';
+                },
+                onSuccess: function () {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Upload Complete',
+                        text: `The file ${upload.file.name} has been uploaded successfully. File ID: ${upload.url}`,
+                    });
+                    console.log('Upload URL (File ID):', upload);
+                },
+            });
+
+            // Start the upload
+            upload.start();
+        }
+    </script>
+</body>
+
+</html>
