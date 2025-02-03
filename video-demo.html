@@ -103,15 +103,15 @@
 
             // Create a new tus upload
             const upload = new tus.Upload(file, {
-                endpoint: 'https://tus-server-go-production.up.railway.app/video/',
+                endpoint: 'https://tus-server-production-0f71.up.railway.app/video/',
                 retryDelays: [0, 3000, 5000, 10000, 20000],
                 metadata: {
                     filename: file.name,
                     filetype: file.type,
                 },
-                headers:{
-                    "Authorization":'HE9qj+1+NqDTb14cWJAEsQ==',
-                    "x-email-address":'aaa@aaa.aaa',
+                headers: {
+                    "Authorization": 'HE9qj+1+NqDTb14cWJAEsQ==',
+                    "x-email-address": 'aaa@aaa.aaa',
                 },
                 onError: function (error) {
                     Swal.fire({
@@ -130,7 +130,7 @@
                     console.log(upload)
                     Swal.fire({
                         icon: 'success',
-                        title: 'Upload Complete: '+upload.file.url,
+                        title: 'Upload Complete: ' + upload.file.url,
                         text: `The file ${upload.file.name} has been uploaded successfully.`,
                     });
                 },

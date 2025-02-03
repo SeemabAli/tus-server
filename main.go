@@ -25,13 +25,13 @@ func init() {
 func main() {
 	log.Println("Service started")
 	// Create TUS video Upload handler, init basePath, storageDir
-	videoHandler, err := tus.SetupTusVideoHandler("https://tus-server-go-production.up.railway.app/video/", "/storage/tus/videos")
+	videoHandler, err := tus.SetupTusVideoHandler("https://tus-server-production-0f71.up.railway.app/video/", "/storage/tus/videos")
 	if err != nil {
 		log.Fatalf("Unable to create photo handler: %v", err)
 	}
 
 	// Create TUS video Upload handler, init basePath, storageDir
-	imageHandler, err := tus.SetupTusImageHandler("https://tus-server-go-production.up.railway.app/image/", "/storage/tus/images")
+	imageHandler, err := tus.SetupTusImageHandler("https://tus-server-production-0f71.up.railway.app/image/", "/storage/tus/images")
 	if err != nil {
 		log.Fatalf("Unable to create photo handler: %v", err)
 	}
