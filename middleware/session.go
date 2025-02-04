@@ -42,7 +42,7 @@ func ValidateSessionAndPerm(sessionToken, email string) int {
 	}
 
 	// Create a new HTTP request
-	req, err := http.NewRequest("POST", "https://api.acebeauty.club/api/AceBeauty/isValidUploader", bodyWriter)
+	req, err := http.NewRequest("POST", "https://api.mindlinkstechnology.com/api/AceBeauty/isValidUploader", bodyWriter)
 	if err != nil {
 		log.Printf("Error creating HTTP request: %v", err)
 		return invalidSessionCode
