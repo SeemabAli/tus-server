@@ -45,6 +45,7 @@ func SetupTusVideoHandler(basePath, storageDir string) (*handler.Handler, error)
 		NotifyCompleteUploads: true,
 		NotifyUploadProgress:  true,
 		DisableDownload:       true,
+		MaxSize:               1024 * 1024 * 1024 * 5, // 5GB
 		Cors: &handler.CorsConfig{
 			Disable:          false,
 			AllowOrigin:      regexp.MustCompile(".*"),
